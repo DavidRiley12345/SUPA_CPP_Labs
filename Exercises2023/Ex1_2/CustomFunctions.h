@@ -1,10 +1,6 @@
 #pragma once
-#include <fstream>
-#include <iostream>
 #include <vector>
-#include <sstream>
 #include <string>
-#include <cmath>
 
 int printOutData(int numToRead, int numOfPoints, std::vector<std::vector<float>> vectorOfPoints);
 

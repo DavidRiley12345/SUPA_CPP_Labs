@@ -1,10 +1,7 @@
 // David Riley 15/11/2023 C++ labs
-#include <fstream>
 #include <iostream>
 #include <vector>
-#include <sstream>
 #include <string>
-#include <cmath>
 #include "CustomFunctions.h"
 
 int main(){
