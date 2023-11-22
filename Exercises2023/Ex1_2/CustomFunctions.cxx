@@ -5,6 +5,23 @@
 #include <string>
 #include <cmath>
 
+int print(std::vector<float> vectorIn){
+    // print a pair of values
+    std::cout << vectorIn[0] << " , " << vectorIn[1] << std::endl;
+    return 0;
+}
+
+int print(float floatToPrint){
+    std::cout << floatToPrint << std::endl;
+    return 0;
+}
+
+int print(std::string stringToPrint){
+    // output a string to cout
+    std::cout << stringToPrint << std::endl;
+    return 0;
+}
+
 int printOutData(int numToRead, int numOfPoints, std::vector<std::vector<float>> vectorOfPoints){
     
     int i = 0;
@@ -14,7 +31,7 @@ int printOutData(int numToRead, int numOfPoints, std::vector<std::vector<float>>
         std::cout << "There are only " << numOfPoints << " datapoints, outputting the first 5 points:" << std::endl;
 
         while (i < 5){
-            std::cout << vectorOfPoints[i][0] << "," << vectorOfPoints[i][1] << std::endl;
+            print(vectorOfPoints[i]);
             i++;
         }
     } else {
@@ -22,7 +39,7 @@ int printOutData(int numToRead, int numOfPoints, std::vector<std::vector<float>>
         std::cout << "Outputting the first " << numToRead << " values:" << std::endl;
 
         while (i < numToRead){
-            std::cout << vectorOfPoints[i][0] << "," << vectorOfPoints[i][1] << std::endl;
+            print(vectorOfPoints[i]);
             i++;
         }
     }
@@ -31,7 +48,7 @@ int printOutData(int numToRead, int numOfPoints, std::vector<std::vector<float>>
 
 std::vector<float> getMagnitudes(std::vector<std::vector<float>> vectorOfPoints){
 
-    std::cout << "Printing vector magnitudes: " << std::endl;
+    print("Printing vector magnitudes: ");
 
     float magnitude;
 
@@ -43,7 +60,7 @@ std::vector<float> getMagnitudes(std::vector<std::vector<float>> vectorOfPoints)
 
         magnitude = sqrt(pow(vectorOfPoints[i][0],2) + pow(vectorOfPoints[i][1],2));
         
-        std::cout << magnitude << std::endl;
+        print(magnitude);
 
         vectorOfMagnitudes.push_back(magnitude);
 
@@ -55,7 +72,7 @@ std::vector<float> getMagnitudes(std::vector<std::vector<float>> vectorOfPoints)
     return vectorOfMagnitudes;
 }
 
-std::string fitStraightLine(std::vector<std::vector<float>> vectorOfPoints){
+std::vector<float> fitStraightLine(std::vector<std::vector<float>> vectorOfPoints){
     // fits a line y = px + q to a vector of datapoints
 
     float p;
@@ -81,11 +98,14 @@ std::string fitStraightLine(std::vector<std::vector<float>> vectorOfPoints){
     p = (N * sumOfXtimesY - (sumOfX * sumOfY))/(N * sumOfXsquared - (sumOfX * sumOfX));
     q = ((sumOfXsquared * sumOfY)-(sumOfXtimesY * sumOfX))/((N * sumOfXsquared)-(sumOfX * sumOfX));
 
-    std::cout << "q = " << p << ",q = " << q << std::endl;
+    std::vector<float> fitParams;
 
-    std::string pandq = std::to_string(p) + std::to_string(q);
+    fitParams.push_back(p);
+    fitParams.push_back(q);
 
-    return pandq;
+    print(fitParams);
+
+    return fitParams;
 
 }
 
@@ -124,7 +144,7 @@ std::vector<std::vector<float>> readFileToVector(std::string fileName){
         y = stof(value);
         
 
-        // display all the numbers, uncomment to check youre reading in correctly
+        // display all the numbers, uncomment to check you're reading in correctly
         // std::cout << x << "," << y << std::endl;
 
         // now define our structure to hold these two numbers, a vector of floats

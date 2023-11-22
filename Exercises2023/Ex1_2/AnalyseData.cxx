@@ -6,8 +6,10 @@
 
 int main(){
 
+    
+
     std::string fileName = "input2D_float.txt";
-     
+ 
     // read in our file using out readFileToVector function 
     std::vector<std::vector<float>> vectorOfPoints = readFileToVector(fileName);
 
