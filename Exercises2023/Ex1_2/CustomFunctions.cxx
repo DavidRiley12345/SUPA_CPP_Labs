@@ -4,6 +4,8 @@
 #include <sstream>
 #include <string>
 #include <cmath>
+#include "CustomFunctions.h"
+
 
 int print(std::vector<float> vectorIn){
     // print a pair of values
@@ -103,7 +105,29 @@ std::vector<float> fitStraightLine(std::vector<std::vector<float>> vectorOfPoint
     fitParams.push_back(p);
     fitParams.push_back(q);
 
-    print(fitParams);
+    // now calculate the X^2/NDF on the data.
+
+    std::vector<std::vector<float>> vectorOfErrors = readFileToVector("test_error.txt");
+
+    float chisq;
+
+    int j = 0;
+
+    while (j < N){
+        chisq += pow(vectorOfPoints[j][1] - (p * vectorOfPoints[j][0] + q),2)/pow((vectorOfErrors[j][1]),2);
+        j++; 
+    }
+
+    float chisqPerNDF = chisq/(N-2);
+
+    fitParams.push_back(chisqPerNDF);
+
+    // print the vector of fit params
+    
+    std::cout << "(p,q,chisq) = (" << fitParams[0] << ", " << fitParams[1] << ", " << fitParams[2] << ")" << std::endl;
+
+    // doesnt work cause my overloaded print only accounts for printing pairs of vectors
+    // print(fitParams);
 
     return fitParams;
 
@@ -160,3 +184,5 @@ std::vector<std::vector<float>> readFileToVector(std::string fileName){
 
     return vectorOfPoints;
 }
+
+
