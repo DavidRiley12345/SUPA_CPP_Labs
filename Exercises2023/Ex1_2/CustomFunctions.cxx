@@ -1,3 +1,4 @@
+// David Riley 15/11/2023 C++ labs
 #include <fstream>
 #include <iostream>
 #include <vector>
@@ -107,7 +108,7 @@ std::vector<float> fitStraightLine(std::vector<std::vector<float>> vectorOfPoint
 
     // now calculate the X^2/NDF on the data.
 
-    std::vector<std::vector<float>> vectorOfErrors = readFileToVector("test_error.txt");
+    std::vector<std::vector<float>> vectorOfErrors = readFileToVector("error2D_float.txt");
 
     float chisq;
 
@@ -137,6 +138,10 @@ std::vector<std::vector<float>> readFileToVector(std::string fileName){
 
     // open a file stream with the name of the file
     std::ifstream inputFile(fileName);
+
+    if (!inputFile.is_open()) {
+        print("Error opening file!");
+    }
     
     // get the first line from the file, removing it from the file stream in the process
     // and print it to double check it acutally was a header
@@ -185,4 +190,41 @@ std::vector<std::vector<float>> readFileToVector(std::string fileName){
     return vectorOfPoints;
 }
 
+std::vector<float> calcXtotheY(std::vector<std::vector<float>> vectorOfPoints){
+
+    std::vector<float> results;
+
+    int i = 0;
+
+    float result;
+
+    float x;
+    float y;
+
+    while (i < vectorOfPoints.size()){
+        x = vectorOfPoints[i][0];
+        y = static_cast<int>(round(vectorOfPoints[i][1]));
+        result = getPower(x,y);
+        print(result);
+        results.push_back(result);
+        i++;
+    }
+
+    return results;
+}
+
+float getPower(float x, int y){
+
+    float result = x;
+
+    if (y > 1){
+        result = result * getPower(x, y-1);
+    }
+
+    return result;
+}
+
+int output(std::string outputName){
+    
+}
 

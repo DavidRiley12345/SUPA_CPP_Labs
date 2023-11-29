@@ -6,7 +6,7 @@
 
 int main(){
 
-    std::string fileName = "test_data.txt";
+    std::string fileName = "input2D_float.txt";
  
     // read in our file using out readFileToVector function 
     std::vector<std::vector<float>> vectorOfPoints = readFileToVector(fileName);
@@ -14,53 +14,78 @@ int main(){
     // store the number of points in an in to use later
     int numOfPoints = vectorOfPoints.size();
 
-    // define a variable to check for different program states
+    // define a state variable to switch between different program modes
     // 0 = Default (back to asking the user what they want to do)
     // 1 = print values in the opened file
     // 2 = calculate their magnitudes
     // 3 = fit to the data
+    // 4 = get x to the power y
     int programState; 
 
-    print("Print (1), get mags (2) or fit (3)?");
-    std::cout << "Choice : ";
-    std::cin >> programState;
-    
-    // input for how many lines to print, for some reason the switch requires this outside of the case statements?
-    std::string userInputStr;
+    bool exitProgram = false;
 
-    switch (programState){
-        // print the values in the file
-        case 1:
-            
-            int numOfLinesToPrint;
+    while (!exitProgram){
 
-            // now read in a value from the user specifying how many data points the user wants to print and convert from string to int
-            std::cout << "Enter how many values from the file you would like to print: ";
-            std::cin >> userInputStr;
-            numOfLinesToPrint = std::stoi(userInputStr);
+        print("Print (1), get mags (2) or fit (3) or powers (4)? (or exit (5))");
+        std::cout << "Choice : ";
+        std::cin >> programState;
+        
+        // input for how many lines to print, for some reason the switch requires this outside of the case statements?
+        std::string userInputStr;
 
-            // run our function to print points contained in the data
-            printOutData(numOfLinesToPrint,numOfPoints,vectorOfPoints);
+        switch (programState){
+            // print the values in the file
+            case 1:
+                
+                int numOfLinesToPrint;
 
-            break;
-        // get the magnitudes of the vectors to the points
-        case 2:
+                // now read in a value from the user specifying how many data points the user wants to print and convert from string to int
+                std::cout << "Enter how many values from the file you would like to print: ";
+                std::cin >> userInputStr;
+                numOfLinesToPrint = std::stoi(userInputStr);
 
-            getMagnitudes(vectorOfPoints);
+                // run our function to print points contained in the data
+                printOutData(numOfLinesToPrint,numOfPoints,vectorOfPoints);
 
-            break;
-        // fit a line to the data
-        case 3:
+                programState = 0;
+                break;
+            // get the magnitudes of the vectors to the points
+            case 2:
 
-            fitStraightLine(vectorOfPoints);
+                getMagnitudes(vectorOfPoints);
 
-            break;
+                programState = 0;
+                break;
+            // fit a line to the data
+            case 3:
 
-        default:
-            print("Invalid Choice Try again");
-            break;
+                fitStraightLine(vectorOfPoints);
 
+                programState = 0;
+                break;
+
+            case 4:
+
+                calcXtotheY(vectorOfPoints);
+
+                programState = 0;
+                break;
+            // exit program
+            case 5:
+
+                exitProgram = true;
+
+                programState = 0;
+                break;
+            // error if value doesn't match any from the list
+            default:
+                print("Invalid Choice Try again");
+                break;
+
+        }
     }
+
+    print("Program Closed");
 
     return 0;
 }
