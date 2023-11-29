@@ -26,12 +26,26 @@ int main(){
 
     while (!exitProgram){
 
-        print("Print (1), get mags (2) or fit (3) or powers (4)? (or exit (5))");
-        std::cout << "Choice : ";
+        print(""); // empty line for readability
+        print("Main Menu");
+        print("What would you like to do? Enter a number from the list below:");
+        print("1 - Print n lines of the data");
+        print("2 - Calculate magnitudes of x,y pairs");
+        print("3 - Fit a straight line to the data");
+        print("4 - Calculate X to the power of Y (rounded)");
+        print("5 - Exit");
+        std::cout << "Selection : ";
         std::cin >> programState;
         
         // input for how many lines to print, for some reason the switch requires this outside of the case statements?
         std::string userInputStr;
+
+        // initialise variables to store outputs of functions 
+        std::vector<float> magnitudes;
+        std::vector<float> fitResults;
+        std::vector<float> powerResults;
+        std::string saveChoice;
+        std::string continueChoice;
 
         switch (programState){
             // print the values in the file
@@ -47,35 +61,67 @@ int main(){
                 // run our function to print points contained in the data
                 printOutData(numOfLinesToPrint,numOfPoints,vectorOfPoints);
 
-                programState = 0;
                 break;
             // get the magnitudes of the vectors to the points
             case 2:
 
-                getMagnitudes(vectorOfPoints);
+                magnitudes = getMagnitudes(vectorOfPoints);
 
-                programState = 0;
+                std::cout << "Save the values to a file? (y/n) : ";
+                std::cin >> saveChoice;
+                if(saveChoice == "y"){
+                    output("Outputs/Magnitudes.txt",magnitudes);
+                } else if (saveChoice == "n"){
+                    print("File not saved.");
+                } else {
+                    print("Input not recognised: File not saved.");
+                }
+                
+                saveChoice = "n";
+
                 break;
             // fit a line to the data
             case 3:
 
-                fitStraightLine(vectorOfPoints);
+                fitResults = fitStraightLine(vectorOfPoints);
 
-                programState = 0;
+                std::cout << "Save the values to a file? (y/n) : ";
+                std::cin >> saveChoice;
+                if(saveChoice == "y"){
+                    output("Outputs/FitResults.txt",fitResults);
+                } else if (saveChoice == "n"){
+                    print("File not saved.");
+                } else {
+                    print("Input not recognised: File not saved.");
+                }
+                
+                saveChoice = "n";
+
                 break;
 
             case 4:
 
-                calcXtotheY(vectorOfPoints);
+                powerResults = calcXtotheY(vectorOfPoints);
 
-                programState = 0;
+                std::cout << "Save the values to a file? (y/n) : ";
+                std::cin >> saveChoice;
+                if(saveChoice == "y"){
+                    output("Outputs/XtotheY.txt",powerResults);
+                } else if (saveChoice == "n"){
+                    print("File not saved.");
+                } else {
+                    print("Input not recognised: File not saved.");
+                }
+                
+                saveChoice = "n";
+
                 break;
+            
             // exit program
             case 5:
 
                 exitProgram = true;
 
-                programState = 0;
                 break;
             // error if value doesn't match any from the list
             default:
@@ -83,6 +129,21 @@ int main(){
                 break;
 
         }
+        
+        if(exitProgram == false){
+            std::cout << "Would you like to perform another action (enter 1)? or exit (enter 2) : ";
+            std::cin >> continueChoice; 
+
+            if(continueChoice == "1"){
+                programState = 0;
+            } else if (continueChoice == "2"){
+                exitProgram = true;
+            } else {
+                print("Input not recognised: returning to menu");
+                programState = 0;
+            }
+        }
+        
     }
 
     print("Program Closed");

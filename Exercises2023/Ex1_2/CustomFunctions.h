@@ -20,3 +20,5 @@ std::vector<std::vector<float>> readFileToVector(std::string fileName);
 std::vector<float> calcXtotheY(std::vector<std::vector<float>> vectorOfPoints);
 
 float getPower(float x, int y);
+
+int output(std::string outputName, std::vector<float> vectorOutput);

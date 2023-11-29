@@ -39,7 +39,7 @@ int printOutData(int numToRead, int numOfPoints, std::vector<std::vector<float>>
         }
     } else {
 
-        std::cout << "Outputting the first " << numToRead << " values:" << std::endl;
+        std::cout << "Outputting the first " << numToRead << " line of data:" << std::endl;
 
         while (i < numToRead){
             print(vectorOfPoints[i]);
@@ -69,8 +69,6 @@ std::vector<float> getMagnitudes(std::vector<std::vector<float>> vectorOfPoints)
 
         i++;
     }
-
-
 
     return vectorOfMagnitudes;
 }
@@ -224,7 +222,23 @@ float getPower(float x, int y){
     return result;
 }
 
-int output(std::string outputName){
+int output(std::string outputName, std::vector<float> vectorOutput){
     
+    std::ofstream outputFile;
+
+    outputFile.open(outputName);
+
+    int i = 0;
+
+    while(i < vectorOutput.size()){
+        outputFile << vectorOutput[i] << std::endl;
+        i++;
+    }
+
+    outputFile.close();
+
+    std::cout << "Data output to file: " << outputName << std::endl;
+
+    return 0;
 }
 
