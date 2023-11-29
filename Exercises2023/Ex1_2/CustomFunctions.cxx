@@ -43,7 +43,7 @@ int printOutData(int numToRead, std::vector<std::vector<float>> vectorOfPoints){
 
     } else { // if the user has chosen a sensible value iterate over the vector printing each value until that corrent amount have been printed
 
-        std::cout << "Outputting the first " << numToRead << " line of data:" << std::endl;
+        std::cout << "Outputting the first " << numToRead << " lines of data:" << std::endl;
 
         while (i < numToRead){
             print(vectorOfPoints[i]);
