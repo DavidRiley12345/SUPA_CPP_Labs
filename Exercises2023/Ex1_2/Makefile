@@ -2,7 +2,6 @@ CC=g++ #Name of compiler
 FLAGS=-std=c++20 -w #Compiler flags (the s makes it silent)
 TARGET=AnalyseData #Executable name
 OBJECTS=CustomFunctions.o AnalyseData.o
-LIBS=
 
 ${TARGET}:${OBJECTS} #Make target from objects
 	@echo "Linking..."
