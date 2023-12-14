@@ -5,6 +5,7 @@
 #include <filesystem> //To check extensions in a nice way
 
 #include "gnuplot-iostream.h" //Needed to produce plots (not part of the course) 
+#include <random>
 
 using std::filesystem::path;
 
@@ -56,8 +57,51 @@ double FiniteFunction::rangeMax() {return m_RMax;};
 double FiniteFunction::invxsquared(double x) {return 1/(1+x*x);};
 double FiniteFunction::callFunction(double x) {return this->invxsquared(x);}; //(overridable)
 
+//Sample function using metropolis hastings (TELLER-ROSENBLUTH) algorithm
+
+std::vector<double> FiniteFunction::sampleFunction(int Nsamples, double startValue){
+  std::vector<double> samples;
+  double x = startValue;
+  double y;
+  double A;
+  double T;
+  double ratio;
+
+  // generate a seed for the random number generator
+  std::random_device rd;
+  // set up the random number generator
+  std::mt19937 mtEngine(rd());
+
+  for(int i = 0; i < Nsamples; i++){
+
+    // setup a normal distribution to generate a new step
+    std::normal_distribution<double> normal_dist(x,1.0);
+
+    // generate a new value for the step from the dist
+    y = normal_dist(mtEngine);
+
+    // calculate the ratio of f(y)/f(x)
+    ratio = this->callFunction(y)/this->callFunction(x);
+
+    // calculate the acceptance probability
+    A = std::min(1.0,ratio);
+
+    // generate a random number between 0 and 1
+    std::uniform_real_distribution<double> uniform_dist(0.0,1.0);
+    T = uniform_dist(mtEngine);
+
+    // if the random number is less than the acceptance probability, accept the step
+    if(T < A){
+      x = y;
+    } 
+
+  // add the value of x to the vector of samples
+  samples.push_back(x);
+  }
 
 
+  return samples;
+}
 /*
 ###################
 Integration by hand (output needed to normalise function when plotting)
