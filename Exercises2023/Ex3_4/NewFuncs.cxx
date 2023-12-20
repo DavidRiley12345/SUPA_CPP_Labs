@@ -3,6 +3,9 @@
 #include <string>
 #include <cmath>
 
+
+// normal distribution definition
+// empty constructor
 normalDist::normalDist(){
         m_RMin = -5.0;  
         m_RMax = 5.0;
@@ -13,6 +16,7 @@ normalDist::normalDist(){
         m_Integral = NULL;
 }
 
+// constructor
 normalDist::normalDist(double range_min, double range_max, double sig, double mean, std::string outfile){
         m_RMin = range_min;
         m_RMax = range_max;
@@ -23,19 +27,20 @@ normalDist::normalDist(double range_min, double range_max, double sig, double me
         m_Integral = NULL;
 }
 
+// destructor
 normalDist::~normalDist(){
   Gnuplot gp; //Set up gnuplot object
   this->generatePlot(gp); //Generate the plot and save it to a png using "outfile" for naming 
 }
 
+// calculate the normal distribution
 double normalDist::calcNormalDist(double x){
         double result;
         result = (1/(m_sigma * sqrt(2*3.14)))*exp(-0.5*pow((x-m_mean)/m_sigma,2));
-        //result = exp(x*x-m_mean);
-        //result = pow(x,2);
         return result;
 }
 
+// override the callFunction method
 double normalDist::callFunction(double x) {return this->calcNormalDist(x);}; 
 
 
@@ -66,12 +71,15 @@ cauchyLorenz::~cauchyLorenz(){
   Gnuplot gp; //Set up gnuplot object
   this->generatePlot(gp); //Generate the plot and save it to a png using "outfile" for naming 
 }
+
+// calculate the cauchy lorenz distribution
 double cauchyLorenz::calcCauchyLorenz(double x){
         double result;
         result = 1.0 / (3.14 * m_gamma * (1.0 + pow((x-m_mean)/m_gamma,2)));
         return result;
 }
 
+// override the callFunction method
 double cauchyLorenz::callFunction(double x) {return this->calcCauchyLorenz(x);};
 
 //---------------------------------------------------------------------------------------------
@@ -106,6 +114,7 @@ crystalBall::~crystalBall(){
   this->generatePlot(gp); //Generate the plot and save it to a png using "outfile" for naming 
 }
 
+// calculate the crystal ball distribution
 double crystalBall::calcCrystalBall(double x){
         double result;
         double A = pow(m_n/fabs(m_alpha),m_n)*exp(-0.5*pow(fabs(m_alpha),2));
@@ -122,4 +131,5 @@ double crystalBall::calcCrystalBall(double x){
         return result;
 }
 
+// override the callFunction method
 double crystalBall::callFunction(double x) {return this->calcCrystalBall(x);};
